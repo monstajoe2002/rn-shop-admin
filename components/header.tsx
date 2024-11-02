@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { CircleUser, Menu, Moon, Package2, Search, Sun } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
+import { createClient } from '@/utils/supabase/client';
 
 const NAV_LINKS = [
     { href: '/admin/dashboard', label: 'Dashboard' },
@@ -26,9 +28,12 @@ const NAV_LINKS = [
 
 export const Header = () => {
     const pathname = usePathname();
-
+    const { setTheme } = useTheme()
+    const router = useRouter()
+    const supabase = createClient();
     const handleLogout = async () => {
-        // Add logic to handle logout
+        await supabase.auth.signOut()
+        router.push('/')
     };
 
     return (
@@ -118,23 +123,17 @@ export const Header = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align='end'>
                                     <DropdownMenuItem
-                                        onClick={() => {
-                                            /* Set light theme */
-                                        }}
+                                        onClick={() => setTheme('light')}
                                     >
                                         Light
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                        onClick={() => {
-                                            /* Set light theme */
-                                        }}
+                                        onClick={() => setTheme('dark')}
                                     >
                                         Dark
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                        onClick={() => {
-                                            /* Set light theme */
-                                        }}
+                                        onClick={() => setTheme('system')}
                                     >
                                         System
                                     </DropdownMenuItem>
