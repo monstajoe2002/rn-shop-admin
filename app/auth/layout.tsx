@@ -1,8 +1,7 @@
-import { ADMIN } from "@/constants";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function AuthLayout({ children }: { children: React.ReactNode }) {
     const supabase = await createClient();
     const { data: authData } = await supabase.auth.getUser()
     if (authData.user) {
@@ -15,12 +14,11 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
             console.error("Error fetching data", error)
             return;
         }
-        if (data.type === ADMIN) return redirect('/');
+        if (data.type === 'admin') return redirect('/admin');
     }
     return (
         <section>
             {children}
         </section>
     );
-
 }
