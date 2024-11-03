@@ -1,3 +1,5 @@
+import { Category } from "@/app/admin/categories/categories.types";
+
 export type ProductWithCategory = {
   id: number;
   title: string;
@@ -5,17 +7,17 @@ export type ProductWithCategory = {
   images_url: string[];
   price: number;
   heroImage: string;
-  category: number;
+  category: Category;
   max_quantity: number;
 };
-export type ProductWithCategoryResponse = ProductWithCategory[];
+export type ProductsWithCategoriesResponse = ProductWithCategory[];
 
 export type UpdateProductSchema = {
   category: number;
   hero_image: string;
   images_url: string[];
   max_quantity: number;
-  price: number | null;
+  price: number;
   slug: string;
   title: string;
 };

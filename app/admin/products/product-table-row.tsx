@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { TableRow, TableCell } from "@/components/ui/table";
-import { ProductWithCategory } from "@/app/admin/products/product.types";
+import { ProductWithCategory } from "@/app/admin/products/products.types";
 import type { CreateOrUpdateProductSchema } from "@/app/admin/products/schema";
 
 type Props = {
