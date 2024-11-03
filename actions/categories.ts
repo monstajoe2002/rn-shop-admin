@@ -1,6 +1,9 @@
 "use server";
 import { CategoriesWithProductsResponse } from "@/app/admin/categories/categories.types";
-import { CreateCategorySchemaServer } from "@/app/admin/categories/create-category.schema";
+import {
+  CreateCategorySchemaServer,
+  UpdateCategorySchema,
+} from "@/app/admin/categories/create-category.schema";
 import { createClient } from "@/utils/supabase/server";
 import slugify from "slugify";
 const supabase = await createClient();
@@ -49,4 +52,22 @@ export const createCategory = async ({
     slug,
   });
   if (error) throw new Error("Error creating category", error);
+};
+
+export const updateCategory = async ({
+  imageUrl,
+  name,
+  slug,
+}: UpdateCategorySchema) => {
+  const { data, error } = await supabase
+    .from("category")
+    .update({ name, image_url: imageUrl })
+    .match({ slug });
+  if (error) throw new Error(`Error updating category: ${error.message}`);
+  return data;
+};
+
+export const deleteCategory = async (id: number) => {
+  const { error } = await supabase.from("category").delete().match({ id });
+  if (error) throw new Error(`Error deleting category: ${error.message}`);
 };
