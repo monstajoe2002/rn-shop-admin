@@ -1,12 +1,11 @@
-export type Product = {
+import { ProductWithCategory } from "@/app/admin/products/product.types";
+
+export type Category = {
   id: number;
-  title: string;
+  created_at: string;
+  image_url: string;
+  name: string;
   slug: string;
-  images_url: string[];
-  price: number;
-  heroImage: string;
-  category: number;
-  max_quantity: number;
 };
 
 export type CategoryWithProducts = {
@@ -14,7 +13,7 @@ export type CategoryWithProducts = {
   id: number;
   image_url: string;
   name: string;
-  products: Product[];
+  products: ProductWithCategory[];
   slug: string;
 };
 
