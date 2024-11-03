@@ -1,5 +1,5 @@
 "use server";
-import { CategoriesWithProductsResponse } from "@/app/admin/categories/categories.type";
+import { CategoriesWithProductsResponse } from "@/app/admin/categories/categories.types";
 import { createClient } from "@/utils/supabase/server";
 
 const supabase = await createClient();

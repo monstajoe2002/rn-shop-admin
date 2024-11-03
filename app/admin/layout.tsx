@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
     return (
         <RenderMounted>
             <Header />
-            <section className="min-h-[calc(100svh - 128px)] py-3">
+            <section className="min-h-[calc(100svh-128px)] py-3">
                 {children}
             </section>
             <Footer />
