@@ -59,7 +59,7 @@ export const CategoryTableRow = ({
                         alt='Product image'
                         className='aspect-square rounded-md object-cover'
                         height='64'
-                        src={category.imageUrl}
+                        src={category.image_url}
                         width='64'
                     />
                 </TableCell>
@@ -98,7 +98,7 @@ export const CategoryTableRow = ({
                                                             {product.title}
                                                         </h3>
                                                         <p className='text-sm text-muted-foreground'>
-                                                            {product.maxQuantity} in stock
+                                                            {product.max_quantity} in stock
                                                         </p>
                                                     </div>
                                                 </div>

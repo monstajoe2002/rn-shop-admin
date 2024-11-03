@@ -35,7 +35,10 @@ import {
 } from "@/app/admin/categories/create-category.schema";
 import { PlusCircle } from "lucide-react";
 import { CategoryForm } from "@/app/admin/categories/category-form";
-
+import { v4 as uuidV4 } from "uuid";
+import { createCategory, imageUploadHandler } from "@/actions/categories";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 type Props = {
     categories: CategoriesWithProductsResponse;
 };
@@ -52,10 +55,24 @@ const CategoryPageComponent = ({ categories }: Props) => {
             image: undefined,
         },
     });
+    const router = useRouter()
     const submitCategoryHandler: SubmitHandler<CreateCategorySchema> = async (
         data
     ) => {
-        console.log("data", data);
+        const uniqueId = uuidV4()
+        const fileName = `category/category-${uniqueId}`;
+        const file = new File([data.image[0]], fileName)
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const imageUrl = await imageUploadHandler(formData)
+        if (imageUrl) {
+            await createCategory({ imageUrl, name: data.name })
+            form.reset()
+            router.refresh()
+            setIsCreateCategoryModalOpen(false)
+            toast.success("Category created successfully")
+        }
     };
 
     return (
@@ -113,18 +130,20 @@ const CategoryPageComponent = ({ categories }: Props) => {
                                 <TableHead>
                                     <span className="sr-only">Actions</span>
                                 </TableHead>
+
                             </TableRow>
-                            <TableBody>
-                                {categories.map((category) => (
-                                    <CategoryTableRow
-                                        key={category.id}
-                                        category={category}
-                                        setCurrentCategory={setCurrentCategory}
-                                        setIsCreateCategoryModalOpen={setIsCreateCategoryModalOpen}
-                                    />
-                                ))}
-                            </TableBody>
+
                         </TableHeader>
+                        <TableBody>
+                            {categories.map((category) => (
+                                <CategoryTableRow
+                                    key={category.id}
+                                    category={category}
+                                    setCurrentCategory={setCurrentCategory}
+                                    setIsCreateCategoryModalOpen={setIsCreateCategoryModalOpen}
+                                />
+                            ))}
+                        </TableBody>
                     </Table>
                 </CardContent>
             </Card>
