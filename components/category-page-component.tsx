@@ -41,7 +41,7 @@ import {
   deleteCategory,
   updateCategory,
 } from "@/actions/categories";
-import { imageUploadHandler } from "@/actions/imageUploadHandler";
+import { imageUploadHandler } from "@/actions/categories";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 type Props = {

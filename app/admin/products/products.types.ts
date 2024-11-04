@@ -6,7 +6,7 @@ export type ProductWithCategory = {
   slug: string;
   images_url: string[];
   price: number;
-  heroImage: string;
+  hero_image: string;
   category: Category;
   max_quantity: number;
 };

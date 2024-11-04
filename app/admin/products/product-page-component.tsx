@@ -41,7 +41,10 @@ type Props = {
   productsWithCategories: ProductsWithCategoriesResponse;
 };
 
-const ProductPageComponent = ({ categories }: Props) => {
+const ProductPageComponent = ({
+  categories,
+  productsWithCategories,
+}: Props) => {
   const [currentProduct, setCurrentProduct] =
     useState<CreateOrUpdateProductSchema | null>(null);
 
@@ -152,7 +155,71 @@ const ProductPageComponent = ({ categories }: Props) => {
     }
   };
 
-  return <div>ProductPageComponent</div>;
+  return (
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0">
+      <div className="container mx-auto p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Products Management</h1>
+          <Button
+            onClick={() => {
+              setCurrentProduct(null);
+              setIsProductModalOpen(true);
+            }}
+          >
+            <PlusIcon className="size-4 mr-2" />
+            Add Product
+          </Button>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Max Quantity</TableHead>
+              <TableHead>Hero Image</TableHead>
+              <TableHead>Product Images</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {productsWithCategories.map((product) => (
+              <ProductTableRow
+                setIsProductModalOpen={setIsProductModalOpen}
+                setIsDeleteModalOpen={setIsDeleteModalOpen}
+                key={product.id.toString()}
+                product={product}
+                setCurrentProduct={setCurrentProduct}
+              />
+            ))}
+          </TableBody>
+        </Table>
+        {/* Product Modal */}
+        <ProductForm
+          form={form}
+          onSubmit={productUpdateCreateHandler}
+          categories={categories}
+          isProductModalOpen={isProductModalOpen}
+          setIsProductModalOpen={setIsProductModalOpen}
+          defaultValues={currentProduct}
+        />
+        {/* Delete modal */}
+        <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Product</DialogTitle>
+            </DialogHeader>
+            <p>Are you sure you want to delete {currentProduct?.title}?</p>
+            <DialogFooter>
+              <Button variant={"destructive"} onClick={deleteProductHandler}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </main>
+  );
 };
 
 export default ProductPageComponent;

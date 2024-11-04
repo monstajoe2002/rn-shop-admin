@@ -43,11 +43,11 @@ export const ProductTableRow = ({
       <TableCell>{product.price}</TableCell>
       <TableCell>{product.max_quantity}</TableCell>
       <TableCell>
-        {product.heroImage && (
+        {product.hero_image && (
           <Image
             width={40}
             height={40}
-            src={product.heroImage}
+            src={product.hero_image}
             alt="Hero"
             className="w-10 h-10 object-cover"
           />
