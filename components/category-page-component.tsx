@@ -39,9 +39,9 @@ import { v4 as uuidV4 } from "uuid";
 import {
   createCategory,
   deleteCategory,
-  imageUploadHandler,
   updateCategory,
 } from "@/actions/categories";
+import { imageUploadHandler } from "@/actions/imageUploadHandler";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 type Props = {
