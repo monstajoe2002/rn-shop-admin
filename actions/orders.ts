@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-const supabase = await createClient();
+const supabase = createClient();
 
 export const getOrdersWithProducts = async () => {
   const { data, error } = await supabase

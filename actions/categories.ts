@@ -6,7 +6,7 @@ import {
 } from "@/app/admin/categories/create-category.schema";
 import { createClient } from "@/utils/supabase/server";
 import slugify from "slugify";
-const supabase = await createClient();
+const supabase = createClient();
 
 export const getCategoriesWithProducts =
   async (): Promise<CategoriesWithProductsResponse> => {

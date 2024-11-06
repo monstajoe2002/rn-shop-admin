@@ -9,7 +9,7 @@ import {
 
 import { CreateProductSchemaServer } from "@/app/admin/products/schema";
 
-const supabase = await createClient();
+const supabase = createClient();
 
 export const getProductsWithCategories =
   async (): Promise<ProductsWithCategoriesResponse> => {
