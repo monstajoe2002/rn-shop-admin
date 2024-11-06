@@ -31,7 +31,7 @@ import {
 
 import { OrdersWithProducts } from "@/app/admin/orders/type";
 import { updateOrderStatus } from "@/actions/orders";
-const statusOptions = ["Pending", "Shipped", "In Transit", "Completed"];
+const statusOptions = ["Pending", "Shipped", "InTransit", "Completed"];
 
 type Props = {
   ordersWithProducts: OrdersWithProducts;
