@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 
 import { OrdersWithProducts } from "@/app/admin/orders/type";
+const statusOptions = ["Pending", "Shipped", "In Transit", "Completed"];
 
 type Props = {
   ordersWithProducts: OrdersWithProducts;
@@ -58,6 +59,11 @@ export default function PageComponent({ ordersWithProducts }: Props) {
       product: item.product,
     }))
   );
+
+  const handleStatusChange = async (orderedId: number, status: string) => {
+    // TODO: update status of the order
+  };
+
   const openProductsModal = (products: OrderedProducts) =>
     setSelectedProducts(products);
 
@@ -83,7 +89,25 @@ export default function PageComponent({ ordersWithProducts }: Props) {
               <TableCell>
                 {format(new Date(order.created_at), "MMM dd, yyyy")}
               </TableCell>
-              <TableCell>status</TableCell>
+              <TableCell>
+                <Select
+                  onValueChange={(value) => {
+                    handleStatusChange(order.id, value);
+                  }}
+                  defaultValue={order.status}
+                >
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue>{order.status}</SelectValue>
+                    <SelectContent>
+                      {statusOptions.map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </SelectTrigger>
+                </Select>
+              </TableCell>
               <TableCell>{order.description || "No description"}</TableCell>
               {/* @ts-expect-error Supabase doesn't infer nested types well*/}
               <TableCell>{order.user.email}</TableCell>
