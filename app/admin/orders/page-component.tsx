@@ -35,7 +35,32 @@ type Props = {
   ordersWithProducts: OrdersWithProducts;
 };
 
+type OrderedProducts = {
+  order_id: number;
+  product: number & {
+    category: number;
+    created_at: string;
+    hero_image: string;
+    id: number;
+    images_url: string[];
+    max_quantity: number;
+    price: number;
+    slug: string;
+    title: string;
+  };
+}[];
+
 export default function PageComponent({ ordersWithProducts }: Props) {
+  const [selectedProducts, setSelectedProducts] = useState<OrderedProducts>([]);
+  const orderedProducts = ordersWithProducts.flatMap((order) =>
+    order.order_items.map((item) => ({
+      order_id: order.id,
+      product: item.product,
+    }))
+  );
+  const openProductsModal = (products: OrderedProducts) =>
+    setSelectedProducts(products);
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Orders Management Dashboard</h1>
@@ -67,6 +92,57 @@ export default function PageComponent({ ordersWithProducts }: Props) {
               <TableCell>
                 {order.order_items.length} item
                 {order.order_items.length > 1 ? "s" : ""}
+              </TableCell>
+              <TableCell>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size={"sm"}
+                      onClick={() =>
+                        openProductsModal(
+                          orderedProducts.filter(
+                            (item) => item.order_id === order.id
+                          )
+                        )
+                      }
+                    >
+                      View Products
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Order Products</DialogTitle>
+                    </DialogHeader>
+                    <div className="mt-4">
+                      {selectedProducts.map(({ product }, index) => (
+                        <div
+                          key={index}
+                          className="mr-2 mb-2 flex space-x-2 items-center"
+                        >
+                          <Image
+                            width={64}
+                            height={64}
+                            className="size-16 rounded object-cover"
+                            alt={product.title}
+                            src={product.hero_image}
+                          />
+                          <div className="flex flex-col">
+                            <span className="font-semibold">
+                              {product.title}
+                            </span>
+                            <span className="text-gray-600">
+                              $ {product.price.toFixed(2)}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              Available Quantity: {product.max_quantity}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </TableCell>
             </TableRow>
           ))}
